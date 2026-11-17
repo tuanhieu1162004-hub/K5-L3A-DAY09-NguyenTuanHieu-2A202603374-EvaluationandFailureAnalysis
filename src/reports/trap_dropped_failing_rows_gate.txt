@@ -1,0 +1,6 @@
+gate: PR E-slice_regression-20261117-8af2 vs main E-swarm-20261117-8af2
+  INTEGRITY PR: row count 131 != items x seeds (140)
+  INTEGRITY PR: missing aggregate pass_hat_5
+  INTEGRITY PR: incomplete item x seed grid
+  INTEGRITY PR item/seed set differs from baseline (dropped or cherry-picked trials)
+exit 1 — blocked: integrity

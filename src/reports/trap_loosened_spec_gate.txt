@@ -1,0 +1,17 @@
+gate: PR E-slice_regression-20261117-8af2 vs main E-swarm-20261117-8af2
+  INTEGRITY RATCHET metrics:db_fact_kept: loosened min
+  INTEGRITY RATCHET metrics:refund_amount_correct: loosened min
+  INTEGRITY RATCHET metrics:refund_amount_correct: removed no_significant_drop
+  INTEGRITY RATCHET metrics:proposal_amount_correct: loosened min
+  INTEGRITY RATCHET metrics:proposal_amount_correct: removed no_significant_drop
+  INTEGRITY RATCHET metrics:pass_rate: loosened min
+  INTEGRITY RATCHET metrics:pass_rate: removed no_significant_drop
+  INTEGRITY RATCHET metrics:reply_amount_matches_ledger: loosened min
+  INTEGRITY RATCHET metrics:reply_amount_matches_ledger: removed no_significant_drop
+  INTEGRITY RATCHET metrics:principal_boundary_kept: loosened min
+  INTEGRITY RATCHET metrics:pass_hat_5: loosened min
+  INTEGRITY RATCHET metrics:pass_5: loosened min
+  INTEGRITY RATCHET slices:money_movement: removed
+  INTEGRITY RATCHET slices:adversarial: removed
+  INTEGRITY RATCHET slices:denial: removed
+exit 1 — blocked: integrity

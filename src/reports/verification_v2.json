@@ -1,0 +1,290 @@
+{
+  "base_commit": "9a71b79d527709acfe404b64df708388340d3ab2",
+  "measured_source": "M5-M7 working tree identified by source_sha256; commit pending",
+  "source_sha256": {
+    "src/lab9/stats.py": "cf095bf3212e3d2c4ad4ddf4a06183523b4aa0a34cf3a915a91ed2e9581845ed",
+    "src/lab9/gate.py": "45933dc475de77585ecc8f46ab63f4edd5ed52aca14aa9c8c039adfb3302466a",
+    "src/lab9/graders.py": "a2ff41310b2fe1d06c2b009719473a97fe8ae1040d1fc811fa35aabe1d24364e",
+    "src/lab9/eval.py": "76603cf8fb5df0187a37aba1585e78663960bee562acb2b19099e8519122000a",
+    "src/lab9/evalset.py": "73bd7bc767edee01bd75be157b74db224e658af7f44dd1df8c5b188fb38eff6b",
+    "src/lab9/trace_case.py": "691ed53119864513268949754bc7c6aa3655f29e4cef050da85626f8480c2898",
+    "src/config/metric_spec_v2.yaml": "f62a830f69dc44d644665cd97a7e1b786e09e0a6c31ea6ab04e755713924de88",
+    "src/config/fm_map.yaml": "03e8bf271020d46ee0f227bb2d3b702667e62d2b81c9bb071eb19ccd4b1de02e",
+    "src/harness_map.yaml": "fe7a1dce6aef9858a13c7baa18b94d1d3f074e4887e53afd307370a8445d9e7d",
+    ".github/workflows/eval-gate.yml": "537c0ee16e2e4339358cebeba58179e9c09bffe77c533a734a061d790813bd64",
+    "src/tests/test_lab9_advanced_regressions.py": "178d3668fd58fc397458538a0e9e73760ef8df85b8e538f23ee2747a274aab1e",
+    "src/tests/test_lab9_workflow.py": "2e8466890a85229cf42962086f7df4effbeff87c72908548e52d22192ceb9071"
+  },
+  "source_hash_normalization": "UTF-8 text with LF newlines",
+  "frozen_paths_unchanged": [
+    "src/lab8",
+    "src/lab9/variants.py",
+    "src/lab9/variant_agent.py",
+    "src/lab9/traps.py",
+    "src/data/eval/adversarial_v2.json",
+    "src/config/metric_spec.yaml",
+    "src/reports/baseline_v1.json",
+    "src/reports/eval_fixed.json",
+    "src/reports/eval_seeded_regression.json"
+  ],
+  "eval_set_version": "v2",
+  "eval_set_sha": "8af24f63b38d",
+  "items": 28,
+  "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ],
+  "labels_match_original_sources": true,
+  "fm_counts": {
+    "FM-01": 14,
+    "FM-02": 4,
+    "FM-03": 3,
+    "FM-04": 4,
+    "FM-05": 5,
+    "FM-06": 3,
+    "FM-07": 5,
+    "FM-08": 6,
+    "FM-09": 3
+  },
+  "tests_passed": {
+    "full": 411,
+    "host": 84,
+    "advanced": 51
+  },
+  "aa": {
+    "approval_bypass": {
+      "reference": 0.0,
+      "alternate": 0.0,
+      "delta": 0.0
+    },
+    "secret_leak": {
+      "reference": 0.0,
+      "alternate": 0.0,
+      "delta": 0.0
+    },
+    "db_fact_kept": {
+      "reference": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "refund_amount_correct": {
+      "reference": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "proposal_amount_correct": {
+      "reference": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "pass_rate": {
+      "reference": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "reply_amount_matches_ledger": {
+      "reference": 1.0,
+      "alternate": 1.0,
+      "delta": 0.0
+    },
+    "principal_boundary_kept": {
+      "reference": 1.0,
+      "alternate": 1.0,
+      "delta": 0.0
+    },
+    "pass_5": {
+      "reference": 0.8929,
+      "alternate": 0.8929,
+      "delta": 0.0
+    },
+    "pass_at_1": {
+      "reference": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "pass_hat_1": {
+      "reference": 0.9786,
+      "alternate": 0.9786,
+      "delta": 0.0
+    },
+    "pass_at_3": {
+      "reference": 1.0,
+      "alternate": 1.0,
+      "delta": 0.0
+    },
+    "pass_hat_3": {
+      "reference": 0.9357,
+      "alternate": 0.9357,
+      "delta": 0.0
+    },
+    "pass_at_5": {
+      "reference": 1.0,
+      "alternate": 1.0,
+      "delta": 0.0
+    },
+    "pass_hat_5": {
+      "reference": 0.8929,
+      "alternate": 0.8929,
+      "delta": 0.0
+    },
+    "cost_per_success": {
+      "reference": 50.8077,
+      "alternate": 50.8077,
+      "delta": 0.0
+    }
+  },
+  "mutation": {
+    "blocked_regressions": 3,
+    "total_regressions": 3,
+    "false_alarms": 0
+  },
+  "gates": {
+    "swarm": {
+      "exit_code": 0,
+      "blocked": []
+    },
+    "fixed": {
+      "exit_code": 0,
+      "blocked": []
+    },
+    "slice_regression": {
+      "exit_code": 1,
+      "blocked": [
+        "slice:money_movement/pass_rate"
+      ]
+    },
+    "flaky_regression": {
+      "exit_code": 1,
+      "blocked": [
+        "proposal_amount_correct",
+        "pass_rate",
+        "pass_hat_5",
+        "slice:money_movement/pass_rate"
+      ]
+    }
+  },
+  "slices": {
+    "swarm": {
+      "money_movement": {
+        "items": 12,
+        "value": 1.0,
+        "delta": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0
+      },
+      "adversarial": {
+        "items": 14,
+        "value": 0.9714285714285714,
+        "delta": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0
+      },
+      "denial": {
+        "items": 11,
+        "value": 0.9454545454545454,
+        "delta": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0
+      }
+    },
+    "fixed": {
+      "money_movement": {
+        "items": 12,
+        "value": 1.0,
+        "delta": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 0.0
+      },
+      "adversarial": {
+        "items": 14,
+        "value": 1.0,
+        "delta": 0.02857142857142858,
+        "ci_low": 0.0,
+        "ci_high": 0.07142857142857129
+      },
+      "denial": {
+        "items": 11,
+        "value": 1.0,
+        "delta": 0.054545454545454564,
+        "ci_low": 0.018181818181818077,
+        "ci_high": 0.10909090909090902
+      }
+    },
+    "slice_regression": {
+      "money_movement": {
+        "items": 12,
+        "value": 0.85,
+        "delta": -0.15000000000000002,
+        "ci_low": -0.29999999999999993,
+        "ci_high": 0.0
+      },
+      "adversarial": {
+        "items": 14,
+        "value": 0.9142857142857144,
+        "delta": -0.05714285714285705,
+        "ci_low": -0.18571428571428583,
+        "ci_high": 0.05714285714285694
+      },
+      "denial": {
+        "items": 11,
+        "value": 1.0,
+        "delta": 0.054545454545454564,
+        "ci_low": 0.018181818181818077,
+        "ci_high": 0.10909090909090902
+      }
+    },
+    "flaky_regression": {
+      "money_movement": {
+        "items": 12,
+        "value": 0.8666666666666667,
+        "delta": -0.1333333333333332,
+        "ci_low": -0.18333333333333313,
+        "ci_high": -0.08333333333333315
+      },
+      "adversarial": {
+        "items": 14,
+        "value": 0.9285714285714286,
+        "delta": -0.042857142857142705,
+        "ci_low": -0.1142857142857141,
+        "ci_high": 0.02857142857142858
+      },
+      "denial": {
+        "items": 11,
+        "value": 0.9272727272727272,
+        "delta": -0.018181818181818077,
+        "ci_low": -0.10909090909090902,
+        "ci_high": 0.07272727272727264
+      }
+    }
+  },
+  "traps": {
+    "evaluator_errors_as_nan": {
+      "exit_code": 1,
+      "verdict": "INTEGRITY",
+      "log": "trap_evaluator_errors_as_nan_gate.txt"
+    },
+    "dropped_failing_rows": {
+      "exit_code": 1,
+      "verdict": "INTEGRITY",
+      "log": "trap_dropped_failing_rows_gate.txt"
+    },
+    "cherry_picked_seeds": {
+      "exit_code": 1,
+      "verdict": "INTEGRITY",
+      "log": "trap_cherry_picked_seeds_gate.txt"
+    },
+    "loosened_spec": {
+      "exit_code": 1,
+      "verdict": "INTEGRITY",
+      "log": "trap_loosened_spec_gate.txt"
+    }
+  },
+  "workflow_bash_syntax": "PASS",
+  "hosted_v2_ci": "23746c1 workflow rejected for duplicate with; merged locally, awaiting push and a new hosted run",
+  "hidden_grader": "not available",
+  "workflow_yaml_unique_keys": "PASS; includes negative test for duplicate with",
+  "workflow_validation_base_commit": "23746c1a874273470cc45e1f90f81a05ee990895"
+}

@@ -16,16 +16,29 @@ from pathlib import Path
 from lab8.console import utf8_stdio
 from lab8.db import load_json, load_jsonl
 from lab9 import variants
-from lab9.eval import WORLD, make_task
+from lab9.eval import WORLD, load_spec, load_world, make_task
 
 
-def investigate(shape: str, claim_id: str, seed: int) -> dict:
-    variants.register()
-    claims = load_jsonl(Path("data/public_claims.jsonl"))
-    labels = {c["claim_id"]: c["expected"] for c in claims}
-    with tempfile.TemporaryDirectory(prefix="lab9-case-", ignore_cleanup_errors=True) as tmp:
-        trial = make_task(shape, load_json(WORLD), claims, labels, Path(tmp))({"claim_id": claim_id, "seed": seed})
-    return {"trial": trial, "label": labels[claim_id]}
+def investigate(shape: str, claim_id: str, seed: int, *, spec: dict | None = None) -> dict:
+    from lab8.shapes import SHAPES
+
+    registered = dict(SHAPES)
+    try:
+        variants.register()
+        if spec is None:
+            world = load_json(WORLD)
+            claims = load_jsonl(Path("data/public_claims.jsonl"))
+            labels = {c["claim_id"]: c["expected"] for c in claims}
+        else:
+            world, claims = load_world(spec)
+            labels = json.loads(Path(spec["labels"]).read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory(prefix="lab9-case-", ignore_cleanup_errors=True) as tmp:
+            trial = make_task(shape, world, claims, labels, Path(tmp))({"claim_id": claim_id, "seed": seed})
+        return {"trial": trial, "label": labels[claim_id]}
+    finally:
+        # A read-only diagnostic must not leave variants in the Lab 8 registry.
+        SHAPES.clear()
+        SHAPES.update(registered)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -34,8 +47,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--shape", required=True)
     ap.add_argument("--claim", required=True)
     ap.add_argument("--seed", type=int, default=11)
+    ap.add_argument("--spec", help="optional spec, including the v2 adversarial pack")
     args = ap.parse_args(argv)
-    case = investigate(args.shape, args.claim, args.seed)
+    case = investigate(args.shape, args.claim, args.seed,
+                       spec=load_spec(Path(args.spec)) if args.spec else None)
     t, label = case["trial"], case["label"]
     print(f"== {args.shape} {args.claim}@{args.seed}  lab8 grader: {'PASS' if t['lab8_pass'] else 'FAIL'} ({t['lab8_reason']})")
     print("-- trace (step, kind, payload)")

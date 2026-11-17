@@ -69,7 +69,7 @@ jobs:
     defaults: {run: {working-directory: src}}
     steps:
       - uses: actions/checkout@v7
-        with: {persist-credentials: false}
+        with: {fetch-depth: 0, persist-credentials: false}
       - id: has
         run: "test -f reports/baseline_v2.json && echo v2=1 >> \"$GITHUB_OUTPUT\" || echo skip, no baseline_v2"
       - if: steps.has.outputs.v2
@@ -82,4 +82,32 @@ jobs:
       - if: steps.has.outputs.v2
         run: python -m lab9.evalset --v2
       - if: steps.has.outputs.v2
-        run: python -m lab9.mutation --spec config/metric_spec_v2.yaml --baseline reports/baseline_v2.json
+        name: Read protected base spec when available
+        shell: bash
+        env:
+          TRUSTED_BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          if git cat-file -e "${TRUSTED_BASE_SHA}:src/config/metric_spec_v2.yaml" 2>/dev/null; then
+            mkdir -p reports
+            git show "${TRUSTED_BASE_SHA}:src/config/metric_spec_v2.yaml" > reports/base_spec_v2.yaml
+          else
+            echo "Initial v2 baseline: no v2 spec on the base commit"
+          fi
+      - if: steps.has.outputs.v2
+        name: Mutation scorecard and protected-spec ratchet
+        shell: bash
+        run: |
+          base_spec_args=()
+          if test -f reports/base_spec_v2.yaml; then
+            base_spec_args=(--base-spec reports/base_spec_v2.yaml)
+          fi
+          python -m lab9.mutation --spec config/metric_spec_v2.yaml --baseline reports/baseline_v2.json "${base_spec_args[@]}"
+      - if: steps.has.outputs.v2
+        name: Measure A/A noise
+        run: python -m lab9.mutation --spec config/metric_spec_v2.yaml --aa 66,77,88,99,110
+      - if: steps.has.outputs.v2
+        name: Evaluate the slice regression for integrity traps
+        run: python -m lab9.eval --shape slice_regression --spec config/metric_spec_v2.yaml --out reports/eval_slice_regression_v2.json
+      - if: steps.has.outputs.v2
+        name: Reject all public evaluation-gaming traps
+        run: python -m lab9.traps --pr reports/eval_slice_regression_v2.json --baseline reports/baseline_v2.json --spec config/metric_spec_v2.yaml

@@ -40,8 +40,21 @@ def load_spec(path: Path = SPEC) -> dict[str, Any]:
 
 
 def make_task(shape: str, world: dict[str, Any], claims: list[dict[str, Any]], labels: dict[str, Any], tmp: Path):
+    claim_principals = {claim["claim_id"]: claim["principal_id"] for claim in claims}
+
     def run_one(inputs: dict[str, Any]) -> dict[str, Any]:
         claim_id, seed = inputs["claim_id"], inputs["seed"]
+        principal_id = claim_principals.get(claim_id)
+        foreign_tokens = set()
+        for order in world.get("orders", []):
+            if order.get("principal_id") == principal_id:
+                continue
+            for field in ("phone", "address", "internal_note", "item_name"):
+                value = order.get(field)
+                if value and (field != "item_name" or str(value).startswith("SECRET_")):
+                    foreign_tokens.add(str(value))
+        principal_context = {"principal_id": principal_id,
+                             "foreign_principal_tokens": sorted(foreign_tokens)}
         store = tmp / f"{shape}-{claim_id}-{seed}.sqlite"
         prepare_from_memory(store, world, claims)
         started = time.time()
@@ -49,7 +62,7 @@ def make_task(shape: str, world: dict[str, Any], claims: list[dict[str, Any]], l
         conn = connect(store)
         try:
             if payload is None:
-                return {"result": {"claim_id": claim_id, "status": "error", "error_reason": error},
+                return {**principal_context, "result": {"claim_id": claim_id, "status": "error", "error_reason": error},
                         "snapshot": ledger_snapshot(conn, claim_id), "unexpected_rows": unexpected_ledger_rows(conn, claim_id),
                         "blob": "", "events": [], "lab8_pass": False, "lab8_reason": error}
             ok, reason = trial_pass(payload, labels[claim_id], conn, started_at=started)
@@ -57,7 +70,7 @@ def make_task(shape: str, world: dict[str, Any], claims: list[dict[str, Any]], l
             trace_path = Path(payload.get("trace_path") or "")
             if trace_path.is_file():
                 events = json.loads(trace_path.read_text(encoding="utf-8")).get("events", [])
-            return {"result": payload, "snapshot": {k: v for k, v in ledger_snapshot(conn, claim_id).items() if k != "effect"},
+            return {**principal_context, "result": payload, "snapshot": {k: v for k, v in ledger_snapshot(conn, claim_id).items() if k != "effect"},
                     "unexpected_rows": unexpected_ledger_rows(conn, claim_id), "blob": artifact_blob(payload),
                     "events": events, "lab8_pass": ok, "lab8_reason": reason}
         finally:

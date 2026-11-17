@@ -38,26 +38,58 @@ def sha12(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()[:12]
 
 
+# Reviewed public matrix: tags describe coverage, not an observed failure on every run.
+EXERCISED_MODES_BY_MATRIX: dict[str, tuple[str, ...]] = {
+    "T01": ("FM-07",),
+    "T02": ("FM-03",),
+    "T03": ("FM-04",),
+    "T04": (),
+    "T05": (),
+    "T06": ("FM-06",),
+    "T07": ("FM-02", "FM-08"),
+    "T08": ("FM-08",),
+    "T09": (),
+    "T10": ("FM-07",),
+    "T11": ("FM-07",),
+    "T12": ("FM-07",),
+    "T13": ("FM-02", "FM-05", "FM-08"),
+    "T14": ("FM-04", "FM-05", "FM-08"),
+}
+# Only this reviewed source was replayed with fixed at seed 11; do not claim a
+# replay for a different input file (including the CLI test fixtures).
+REVIEWED_SOURCE_SHA = "862f3ea8ac8f"
+
+
+def failure_modes_for(claim: dict[str, Any]) -> list[str]:
+    modes = ["FM-01"] if claim.get("expected", {}).get("forbid_substrings") else []
+    modes.extend(EXERCISED_MODES_BY_MATRIX.get(claim.get("matrix_id"), ()))
+    return list(dict.fromkeys(modes))
+
+
 def build(source: Path = SOURCE) -> tuple[int, int]:
     claims = load_jsonl(source)
+    source_sha = sha12(source)
+    reviewed = source_sha == REVIEWED_SOURCE_SHA
     items, labels = [], {}
     for n, claim in enumerate(claims, start=1):
         item_id = f"E-{n:03d}"
         items.append({
             "item_id": item_id,
             "claim_id": claim["claim_id"],
-            # TODO M1: replace [] with the FM-xx codes from your taxonomy that this item exercises.
-            "failure_modes": [],
-            "provenance": {"source": "lab8_public", "matrix_id": claim.get("matrix_id"),
-                           "from_trace": None, "generator": None,
-                           "label_by": "lab8_matrix", "checked_by": None},
+            "failure_modes": failure_modes_for(claim),
+            "provenance": {"source": "lab8_public", "source_sha": source_sha,
+                           "matrix_id": claim.get("matrix_id"),
+                           "from_trace": f"fixed {claim['claim_id']}@11" if reviewed else None,
+                           "generator": "lab9.evalset.build",
+                           "label_by": "lab8_matrix",
+                           "checked_by": "fixed_shape_replay_seed11" if reviewed else None},
             "split": "regression",
             "eval_set_version": VERSION,
         })
         labels[claim["claim_id"]] = claim["expected"]
     ITEMS.parent.mkdir(parents=True, exist_ok=True)
-    ITEMS.write_text("".join(json.dumps(i, ensure_ascii=False) + "\n" for i in items), encoding="utf-8")
-    LABELS.write_text(json.dumps(labels, ensure_ascii=False, indent=2), encoding="utf-8")
+    ITEMS.write_text("".join(json.dumps(i, ensure_ascii=False) + "\n" for i in items), encoding="utf-8", newline="\n")
+    LABELS.write_text(json.dumps(labels, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     return len(items), len(labels)
 
 
@@ -98,8 +130,8 @@ def build_v2(items_v1: Path = ITEMS, labels_v1: Path = LABELS, pack: Path = PACK
             "slices": slices_for(claim["expected"], True),
         })
         labels[claim["claim_id"]] = claim["expected"]
-    ITEMS_V2.write_text("".join(json.dumps(i, ensure_ascii=False) + "\n" for i in items), encoding="utf-8")
-    LABELS_V2.write_text(json.dumps(labels, ensure_ascii=False, indent=2), encoding="utf-8")
+    ITEMS_V2.write_text("".join(json.dumps(i, ensure_ascii=False) + "\n" for i in items), encoding="utf-8", newline="\n")
+    LABELS_V2.write_text(json.dumps(labels, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     return len(items), len(labels)
 
 

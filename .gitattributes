@@ -1,0 +1,24 @@
+# Keep fixtures byte-identical on every OS (Windows autocrlf would rewrite them).
+* text=auto eol=lf
+*.sqlite binary
+*.png binary
+*.pdf binary
+
+# Preserve original instructor fixture bytes; do not normalize unchanged starter files.
+src/data/eval/adversarial_v2.json -text
+src/data/eval/judge_helpful_public.csv -text
+src/data/eval/judge_tone_public.csv -text
+src/harness_map.eval.yaml -text
+src/lab9/__init__.py -text
+src/lab9/ci_check.py -text
+src/lab9/judge.py -text
+src/lab9/mutation.py -text
+src/lab9/smoke.py -text
+src/lab9/traps.py -text
+src/lab9/variant_agent.py -text
+src/lab9/variants.py -text
+src/requirements-lab9.txt -text
+src/tests/test_lab9_advanced.py -text
+src/tests/test_lab9_evalset.py -text
+src/tests/test_lab9_graders.py -text
+src/tests/test_lab9_stats.py -text
