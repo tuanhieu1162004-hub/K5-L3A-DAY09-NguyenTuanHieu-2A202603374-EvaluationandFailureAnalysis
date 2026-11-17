@@ -1,0 +1,5 @@
+gate: PR E-slice_regression-20261117-8af2 vs main E-swarm-20261117-8af2
+  INTEGRITY PR: seeds differ from the spec
+  INTEGRITY PR: missing aggregate pass_hat_5
+  INTEGRITY PR item/seed set differs from baseline (dropped or cherry-picked trials)
+exit 1 — blocked: integrity

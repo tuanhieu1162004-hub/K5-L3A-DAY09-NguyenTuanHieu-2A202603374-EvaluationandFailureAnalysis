@@ -1,3 +1,7 @@
+> **Bản nộp Lab 9 của Nguyễn Tuấn Hiếu — 2A202603374.** Nhánh `starter/d09` chứa bài M0–M7 đã hoàn thiện, tích hợp mã Lab 8 để chạy độc lập. Xem [eval card](docs/eval_card.md), [PRD](docs/PRD_v1.1.md) và [bằng chứng kiểm tra](src/reports/verification_v2.json).
+>
+> Các phần bên dưới là đề gốc của starter. Bản nộp này đã thực hiện bước tích hợp Lab 8; provenance và phần mã giữ nguyên được ghi trong [LAB8_SOURCE.md](LAB8_SOURCE.md).
+
 # K5 · Day 9 · Lab — Evaluation & Failure Analysis (LogiX-VN)
 
 > Nối tiếp Lab 8. Lab 8 trả lời "agent có chạy không"; Lab 9 trả lời **"làm sao biết bản mới tốt hơn — và chặn được bản tệ trước khi merge"**.

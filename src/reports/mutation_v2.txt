@@ -1,0 +1,6 @@
+  fixed                expect merge got merge ok          
+  honest_refactor      expect merge got merge ok          
+  seeded_regression    expect block got block ok          refund_amount_correct, proposal_amount_correct, pass_rate, reply_amount_matches_ledger, pass_hat_5, slice:money_movement/pass_rate, slice:adversarial/pass_rate, slice:denial/pass_rate
+  slice_regression     expect block got block ok          slice:money_movement/pass_rate
+  flaky_regression     expect block got block ok          proposal_amount_correct, pass_rate, pass_hat_5, slice:money_movement/pass_rate
+mutation score 3/3 · false alarms 0
